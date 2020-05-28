@@ -1,7 +1,11 @@
 import os
 import csv
 
+# Get the relative path
 csvpath =  os.path.join('Resources', 'budget_data.csv')
+file_to_output = os.path.join('analysis', 'results.txt')
+
+# Define empty lists and counters
 dates = []
 profit_losses = []
 changes = [] 
@@ -31,20 +35,31 @@ with open(csvpath) as csvfile:
     total = sum(changes)
     avg_change = round(total/(len(profit_losses)-1), 2)
 
+    # Loop through the changes list using enumerate method
     for c, value in enumerate(changes):
+        # Get the greatest increase in profits and the corresponding month
         if value > greatest_increase:
             greatest_increase = value
             greatest_month = dates[c+1]
+        # Get the greatest decrease in profits and the corresponding month
         if value < greatest_decrease:
             greatest_decrease = value
             lowest_month = dates[c+1]
 
 
 # Output
-print("Financial Analysis")
-print("--------------------------")
-print(f"Total Months: {total_months}")
-print(f"Total: $ {counter}")
-print(f"Average Change: {avg_change}") 
-print(f"Greatest Increase in Profits: {greatest_month} (${greatest_increase})")
-print(f"Greatest Decrease in Profits: {lowest_month} (${greatest_decrease})")
+output=(
+    f"Financial Analysis\n"
+    f"----------------------------\n"
+    f"Total Months: {total_months}\n"
+    f"Total: ${counter}\n"
+    f"Average Change: ${avg_change}\n"
+    f"Greatest Increase in Profits: {greatest_month} (${greatest_increase})\n"
+    f"Greatest Decrease in Profits: {lowest_month} (${greatest_decrease})\n")
+
+print (output)
+
+# Export the results to text file
+with open(file_to_output, "w") as txt_file:
+    txt_file.write(output)
+

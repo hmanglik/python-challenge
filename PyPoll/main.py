@@ -8,7 +8,7 @@ file_to_output = os.path.join('analysis', 'results.txt')
 # Set initial dictionary and counters 
 candidate_dict = {}
 total_votes = 0
-update_value = 0  
+pop_vote = 0  
 
 with open(csvpath) as csvfile:
     # CSV reader specifies delimiter and variable that holds contents
@@ -28,28 +28,29 @@ with open(csvpath) as csvfile:
         else:
             candidate_dict[row[2]] += 1
 
-
-# Loop through the key, value in candidate_dict and find the percentage of votes each candidate won
-for key, value in candidate_dict.items():
-    percentage = "{:.3%}".format(value/total_votes)
-    # Find the winner of the election based on popular vote 
-    if value > update_value:
-        update_value = value
-        winner = key
-
-# Output
-output=(
-    f"Election Results\n"
-    f"----------------------------\n"
-    f"Total Votes: {total_votes}\n"
-    f"----------------------------\n"
-    f"{key}", f":{percentage}", f"({value})"
-    f"----------------------------\n"
-    f"Winner: {winner}\n"
-    f"----------------------------\n")
-
-print(output)
-
-# Export the results to text file
+# Export the results to text file and print the results
 with open(file_to_output, "w") as txt_file:
-    txt_file.write(output)
+    txt_file.write(f"Election Results\n")
+    print(f"Election Results\n")
+    txt_file.write(f"----------------------------\n")
+    print(f"----------------------------\n")
+    txt_file.write(f"Total Votes: {total_votes}\n")
+    print(f"Total Votes: {total_votes}\n")
+    txt_file.write(f"----------------------------\n")
+    print(f"----------------------------\n")
+    # Loop through the key, value in candidate_dict and find the percentage of votes each candidate won
+    for key, value in candidate_dict.items(): 
+        percentage = "{:.3%}".format(value/total_votes) 
+        txt_file.write(f"{key}: {percentage} ({value})\n")
+        print(f"{key}: {percentage} ({value})\n")
+        # Find the winner of the election based on popular vote
+        if value > pop_vote:
+            pop_vote = value
+            winner = key
+    txt_file.write(f"----------------------------\n")
+    print(f"----------------------------\n")
+    txt_file.write(f"Winner: {winner}\n")
+    print(f"Winner: {winner}\n")
+    txt_file.write(f"----------------------------\n")
+    print(f"----------------------------\n")
+

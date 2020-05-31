@@ -1,7 +1,7 @@
 import os
 import csv
 
-# Get the relative path
+# Get the relative paths
 csvpath =  os.path.join('Resources', 'budget_data.csv')
 file_to_output = os.path.join('analysis', 'results.txt')
 
